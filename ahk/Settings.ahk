@@ -5,7 +5,7 @@
 ; Plugins
 global PluginOptions := { "AutoFlask"     : { "enabled" : true }
 
-                        , "AutoOpen"      : { "enabled" : true
+                        , "AutoOpen"      : { "enabled" : false
                                             , "range"   : 10
                                             , "ignoredChests" : "Amphora"
                                             , "chest"   : true
@@ -26,21 +26,21 @@ global PluginOptions := { "AutoFlask"     : { "enabled" : true }
                                             , "genericItemFilter" : "Incubator|Quicksilver|Eternal (Life|Mana)"
                                             , "rareItemFilter"    : "Jewel|Amulet|Ring" }
 
-                        , "KillCounter"   : { "enabled" : true
+                        , "KillCounter"   : { "enabled" : false
                                             , "radius"  : 50 }
 
                         , "MinimapSymbol" : { "enabled" : true
-                                            , "showNPC"            : true
-                                            , "showPlayer"         : true
+                                            , "showNPC"            : false
+                                            , "showPlayer"         : false
                                             , "showMonsters"       : true
-                                            , "showMinions"        : true
+                                            , "showMinions"        : false
                                             , "showCorpses"        : false
                                             , "rarity"             : 0
                                             , "showDelveChests"    : true
                                             , "showHeistChests"    : true
                                             , "fontSize"           : 12
                                             , "minSize"            : 4
-                                            , "showDamage"         : true
+                                            , "showDamage"         : false
                                             , "minDamage"          : 100000
                                             ; 0: move up/down(negative speed);
                                             ; 1: also move left/right, with random speed;
@@ -49,7 +49,7 @@ global PluginOptions := { "AutoFlask"     : { "enabled" : true }
                                             , "style"              : 1
                                             , "speedX"             : 0.5
                                             , "speedY"             : 1.0
-                                            , "showBeast"          : true
+                                            , "showBeast"          : false
                                             , "showLife"           : false
                                             , "showExpedition"     : true
                                             , "ignoredDelveChests" : "Armour|Weapon|Generic|NoDrops|Encounter"
@@ -60,14 +60,14 @@ global PluginOptions := { "AutoFlask"     : { "enabled" : true }
                                             , "autoQuitMinLevel" : 90 } }
 
 ; Flasks
-global LifeThreshold := 80
+global LifeThreshold := 50
 global ManaThreshold := 50
 global ChargesPerUseLimit := 50
 global MonsterThreshold := 5
 global AlwaysRunning := true
 
 ; Trader
-global TraderUICompact := true
+global TraderUICompact := false
 global TraderUITransparent := 225
 global TraderMaxSessions := 3
 global TraderTimeout := 60
