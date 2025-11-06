@@ -1,0 +1,76 @@
+name: Build poeapi.dll
+
+on:
+  workflow_dispatch:  # 手動觸發
+    inputs:
+      version:
+        description: 'version (e.g., 1.0)'
+        required: true
+        default: '1.17'
+        type: string
+
+jobs:
+  build:
+    runs-on: windows-latest  
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4  
+
+    - name: Setup MinGW
+      uses: msys2/setup-msys2@v2  
+      with:
+        msystem: MINGW64  
+        update: true
+        install: >-
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-pkg-config
+          mingw-w64-x86_64-curl
+          mingw-w64-x86_64-sqlite3
+        path-type: minimal
+
+    - name: Install dependencies
+      shell: msys2 {0} 
+      run: |
+        echo "Install dependencies"
+
+    - name: Build DLL
+      shell: msys2 {0}
+      run: |
+        g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll PoETask.cpp -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl
+        if [ -f "poeapi.dll" ]; then
+          echo "Build successful!"
+        else
+          echo "Build failed!"
+          exit 1
+        fi
+
+    - name: Prepare ahk Folder
+      shell: powershell  
+      run: |
+        New-Item -ItemType Directory -Force -Path "ahk"
+        
+        Move-Item -Path "poeapi.dll" -Destination "ahk/poeapi.dll" -Force
+
+        echo "DLL moved to ahk/ folder."
+
+    - name: Compress Folder
+      shell: powershell
+      run: |
+        $version = "${{ github.event.inputs.version }}"
+        
+        $zipName = "PoEapikit-$version.zip"
+        Compress-Archive -Path "ahk/*" -DestinationPath $zipName -Force
+        
+        if (Test-Path $zipName) {
+          echo "Compression successful! ZIP: $zipName"
+        } else {
+          echo "Compression failed!"
+          exit 1
+        }
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: PoEapikit-${{ github.event.inputs.version }}
+        path: PoEapikit-${{ github.event.inputs.version }}.zip
