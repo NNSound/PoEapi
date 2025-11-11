@@ -1,7 +1,7 @@
 name: Build poeapi.dll
 
 on:
-  workflow_dispatch:  # 手動觸發
+  workflow_dispatch:
     inputs:
       version:
         description: 'version (e.g., 1.0)'
@@ -18,26 +18,27 @@ jobs:
       uses: actions/checkout@v4  
 
     - name: Setup MinGW
-      uses: msys2/setup-msys2@v2  
+      uses: msys2/setup-msys2@v2
       with:
-        msystem: MINGW64  
+        msystem: MINGW64
         update: true
         install: >-
           mingw-w64-x86_64-gcc
           mingw-w64-x86_64-pkg-config
-          mingw-w64-x86_64-curl
-          mingw-w64-x86_64-sqlite3
         path-type: minimal
 
     - name: Install dependencies
-      shell: msys2 {0} 
+      shell: msys2 {0}  # 使用 MSYS2 shell
       run: |
-        echo "Install dependencies"
-
+        g++ --version
+        
+        echo "Dependencies prepared."
+      
     - name: Build DLL
       shell: msys2 {0}
       run: |
-        g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll PoETask.cpp -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl
+        g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll -Wa,-mbig-obj PoETask.cpp -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl -funwind-tables -fexceptions -frtti
+        
         if [ -f "poeapi.dll" ]; then
           echo "Build successful!"
         else
