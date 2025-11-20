@@ -1,0 +1,55 @@
+name: Build poeapi.dll by linux
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version (e.g., 1.0)'
+        required: true
+        default: '1.17'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4  
+
+    - name: 下載 MinGW-w64 GCC 10.2 (Win64)
+      run: |
+        wget -q https://github.com/xpack-dev-tools/mingw-w64-gcc-xpack/releases/download/v11.5.0-1/xpack-mingw-w64-gcc-11.5.0-1-linux-x64.tar.gz
+
+        tar -xzf xpack-mingw-w64-gcc-11.5.0-1-linux-x64.tar.gz -C /opt/
+        echo "/opt/xpack-mingw-w64-gcc-11.5.0-1/bin" >> $GITHUB_PATH
+        export PATH="/opt/xpack-mingw-w64-gcc-11.5.0-1/bin:$PATH"
+        x86_64-w64-mingw32-g++ --version
+      
+    - name: Build DLL
+      run: |
+        x86_64-w64-mingw32-g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll -Wa,-mbig-obj PoETask.cpp -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl -funwind-tables -fexceptions -frtti
+
+    - name: Prepare ahk Folder
+      run: |        
+        cp -f poeapi.dll ahk/poeapi.dll
+
+    - name: Compress Release Folder
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+        
+        ZIP_NAME="poeapi-release-$VERSION.zip"
+        zip -r $ZIP_NAME release/
+        
+        if [ -f "$ZIP_NAME" ]; then
+          echo "Compression successful! ZIP: $ZIP_NAME"
+        else
+          echo "Compression failed!"
+          exit 1
+        fi
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: PoEapikit-${{ github.event.inputs.version }}
+        path: PoEapikit-${{ github.event.inputs.version }}.zip
