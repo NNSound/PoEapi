@@ -25,18 +25,12 @@ jobs:
         install: >-
           mingw-w64-x86_64-gcc
           mingw-w64-x86_64-pkg-config
-          mingw-w64-x86_64-curl
-          mingw-w64-x86_64-sqlite3
         path-type: minimal
 
     - name: Install dependencies
       shell: msys2 {0}  # 使用 MSYS2 shell
       run: |
-        pacman -S --needed --noconfirm mingw-w64-x86_64-curl mingw-w64-x86_64-sqlite3
-        cp -f /mingw64/lib/libcurl.a lib/libcurl.a
-        cp -f /mingw64/lib/libsqlite3.a lib/libsqlite3.a
         g++ --version
-        
         echo "Dependencies prepared."
       
     - name: Build DLL
