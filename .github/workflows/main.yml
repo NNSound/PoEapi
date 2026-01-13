@@ -66,6 +66,30 @@ jobs:
         cp /mingw64/bin/libstdc++-*.dll ahk/ 2>/dev/null || true
         cp /mingw64/bin/libwinpthread-*.dll ahk/ 2>/dev/null || true
 
+    - name: Verify DLL Load (Smoke Test)
+      shell: powershell
+      run: |
+        $dllPath = "ahk/poeapi.dll"
+        Write-Host "Attempting to load $dllPath..."
+        
+        # 使用 .NET 呼叫 Win32 LoadLibrary 進行冒煙測試
+        $signature = '[DllImport("kernel32.dll", SetLastError=true, CharSet=CharSet.Unicode)] public static extern IntPtr LoadLibrary(string lpFileName);'
+        $type = Add-Type -MemberDefinition $signature -Name "Win32Utils" -Namespace "NativeMethods" -PassThru
+        
+        $absPath = (Resolve-Path $dllPath).Path
+        $handle = $type::LoadLibrary($absPath)
+        
+        if ($handle -eq [IntPtr]::Zero) {
+            $err = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+            Write-Host "::error::Failed to load DLL. Windows Error Code: $err"
+            if ($err -eq 126) { Write-Host "Hint: Module not found. Check dependencies." }
+            if ($err -eq 193) { Write-Host "Hint: %1 is not a valid Win32 application. Architecture mismatch?" }
+            exit 1
+        } else {
+            Write-Host "Successfully loaded $dllPath! Handle: $handle"
+        }
+
+
 
     - name: Prepare ahk Folder
       shell: powershell  
