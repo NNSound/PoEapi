@@ -37,9 +37,8 @@ jobs:
     - name: Compress Release Folder
       run: |
         VERSION="${{ github.event.inputs.version }}"
-        
-        ZIP_NAME="poeapi-release-$VERSION.zip"
-        zip -r $ZIP_NAME release/
+        ZIP_NAME="PoEapikit-$VERSION.zip"
+        zip -r $ZIP_NAME ahk/
         
         if [ -f "$ZIP_NAME" ]; then
           echo "Compression successful! ZIP: $ZIP_NAME"

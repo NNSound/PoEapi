@@ -17,13 +17,16 @@ class PoEapi {
             FileMove ..\poeapi.dll, poeapi.dll, true
 
         if (Not pLib := loadLibrary("poeapi.dll")) {
-            errCode := DllCall("GetLastError")
-            if (errCode == 0xc1)
-                Msgbox, % "You need 64-Bit AutoHotkey to run PoEapikit."
+            errCode := A_LastError ? A_LastError : DllCall("GetLastError")
+            if (errCode == 0xc1 || errCode == 193)
+                Msgbox, % "You need 64-Bit AutoHotkey to run PoEapikit. (Error: " errCode ")"
+            else if (errCode == 126)
+                Msgbox, % "Failed to load poeapi.dll: Module not found (Error 126).`nMake sure all dependency DLLs (libcurl, zlib, etc.) are in the folder."
             else
                 Msgbox, % errCode ": Failed to load poeapi.dll!"
             ExitApp
         }
+
 
         ; Initialize ahkpp
         ahkpp_init(pLib)

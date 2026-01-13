@@ -36,23 +36,45 @@ jobs:
     - name: Build DLL
       shell: msys2 {0}
       run: |
-        g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll -Wa,-mbig-obj PoETask.cpp -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl -funwind-tables -fexceptions -frtti
+        # 使用靜態連結減少對 MinGW 執行時期 DLL 的依賴
+        g++ -g -std=c++14 -Iinclude -Llib -shared -o poeapi.dll -Wa,-mbig-obj PoETask.cpp \
+            -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic \
+            -lahkpp -lpsapi -lgdi32 -ldwmapi -lwinmm -ld3d11 -ldcomp -ld2d1 -ldwrite -liphlpapi -lsqlite3 -lcurl \
+            -funwind-tables -fexceptions -frtti
         
         if [ -f "poeapi.dll" ]; then
           echo "Build successful!"
+          # 檢查 DLL 相依性
+          ldd poeapi.dll
         else
           echo "Build failed!"
           exit 1
         fi
 
+    - name: Collect Dependencies
+      shell: msys2 {0}
+      run: |
+        # 建立 ahk 目錄（如果不存在）並複製必要的 DLL
+        mkdir -p ahk
+        cp poeapi.dll ahk/
+        
+        # 複製 MSYS2 中的必要 DLL 到 ahk 目錄，確保載入不缺件
+        cp /mingw64/bin/libcurl-*.dll ahk/ 2>/dev/null || true
+        cp /mingw64/bin/zlib1.dll ahk/ 2>/dev/null || true
+        cp /mingw64/bin/libsqlite3-*.dll ahk/ 2>/dev/null || true
+        cp /mingw64/bin/libgcc_s_seh-*.dll ahk/ 2>/dev/null || true
+        cp /mingw64/bin/libstdc++-*.dll ahk/ 2>/dev/null || true
+        cp /mingw64/bin/libwinpthread-*.dll ahk/ 2>/dev/null || true
+
+
     - name: Prepare ahk Folder
       shell: powershell  
       run: |
-        New-Item -ItemType Directory -Force -Path "ahk"
+        # 確保 ahk 目錄存在（Collect Dependencies 已經建立）
+        if (-not (Test-Path "ahk")) { New-Item -ItemType Directory -Force -Path "ahk" }
         
-        Move-Item -Path "poeapi.dll" -Destination "ahk/poeapi.dll" -Force
+        echo "DLL preparations completed in ahk/ folder."
 
-        echo "DLL moved to ahk/ folder."
 
     - name: Compress Folder
       shell: powershell
