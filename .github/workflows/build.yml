@@ -1,0 +1,59 @@
+name: Build PoEapi
+
+on:
+  # push:
+  #   branches: [ "master", "main" ]
+  # pull_request:
+  #   branches: [ "master", "main" ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version (e.g., 1.0)'
+        required: true
+        default: '1.17'
+        type: string
+
+jobs:
+  build-windows:
+    name: Build poeapi.dll (Windows / MinGW-w64)
+    runs-on: windows-latest
+
+    steps:
+      - name: 取得原始碼
+        uses: actions/checkout@v4
+
+      # 使用 MSYS2 提供的 MinGW-w64 工具鏈（POSIX 執行緒模型 + SEH 例外）
+      - name: 設定 MSYS2 / MinGW-w64
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-curl
+            mingw-w64-x86_64-sqlite3
+
+      - name: 編譯 poeapi.dll
+        shell: msys2 {0}
+        run: |
+          g++ -g -std=c++14 \
+            -Iinclude \
+            -Llib \
+            -shared \
+            -o poeapi.dll \
+            -Wa,-mbig-obj \
+            PoETask.cpp \
+            -lahkpp \
+            -lpsapi -lgdi32 -ldwmapi -lwinmm \
+            -ld3d11 -ldcomp -ld2d1 -ldwrite \
+            -liphlpapi \
+            -lsqlite3 \
+            -lcurl \
+            -funwind-tables -fexceptions -frtti
+
+      - name: 上傳 poeapi.dll 成品
+        uses: actions/upload-artifact@v4
+        with:
+          name: poeapi-dll
+          path: poeapi.dll
+          if-no-files-found: error
