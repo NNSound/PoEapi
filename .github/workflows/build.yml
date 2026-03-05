@@ -30,8 +30,6 @@ jobs:
           update: true
           install: >-
             mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-curl
-            mingw-w64-x86_64-sqlite3
 
       - name: 編譯 poeapi.dll
         shell: msys2 {0}
@@ -43,6 +41,7 @@ jobs:
             -o poeapi.dll \
             -Wa,-mbig-obj \
             PoETask.cpp \
+            -static-libgcc -static-libstdc++ \
             -lahkpp \
             -lpsapi -lgdi32 -ldwmapi -lwinmm \
             -ld3d11 -ldcomp -ld2d1 -ldwrite \
