@@ -117,8 +117,8 @@ Attack:
             ptask.isPicking := false
             ptask.stopPickup()
         }
-        ptask.player.onAttack()
     }
+    ptask.player.onAttack()
 return
 
 QuickDefense:
