@@ -213,7 +213,7 @@ public:
     }
 
     const char* get_version() {
-        if (addrtype addr = find_string("release tags")) {
+        if (addrtype addr = find_string("tags/3")) {
             PoEMemory::read<char>(addr, version_string, 128);
         }
 
