@@ -3,12 +3,6 @@
 */
 
 
-static std::map<string, int> npc_menu_offsets {
-    {"service",    0x2c8},
-        {"list",   0x3f0},
-    {"name",       0x2d8},
-};
-
 static std::map<string, int> npc_menu2_offsets {
     {"service",    0x348},
        {"list",    0x478},
@@ -16,10 +10,10 @@ static std::map<string, int> npc_menu2_offsets {
     {"sp_service", 0x328},
 };
 
-class NpcMenu : public Element {
+class NpcMenu2 : public Element {
 public:
 
-    NpcMenu(addrtype address, FieldOffsets* offsets = &npc_menu_offsets) : Element(address, offsets) {
+    NpcMenu2(addrtype address, FieldOffsets* offsets = &npc_menu2_offsets) : Element(address, offsets) {
     }
 
     wstring get_name() {
@@ -61,13 +55,6 @@ public:
     }
 };
 
-class NpcMenu2 : public NpcMenu {
-public:
-
-    NpcMenu2(addrtype address) : NpcMenu(address, &npc_menu2_offsets) {
-    }
-};
-
 class Vendor : public Element {
 private:
 
@@ -84,13 +71,11 @@ public:
 
     wstring vendor_name;
     std::map<wstring, shared_ptr<Element>> services;
-    shared_ptr<NpcMenu> npc_menus[2];
+    shared_ptr<NpcMenu2> npc_menu;
 
     Vendor(addrtype address) : Element(address) {
-        if (shared_ptr<Element> e = get_child(7))
-            npc_menus[0] = shared_ptr<NpcMenu>(new NpcMenu(e->address));
         if (shared_ptr<Element> e = get_child(8))
-            npc_menus[1] = shared_ptr<NpcMenu>(new NpcMenu2(e->address));
+            npc_menu = shared_ptr<NpcMenu2>(new NpcMenu2(e->address));
 
         add_method(L"name", this, (MethodType)&Vendor::name, AhkWStringPtr);
         add_method(L"isSelected", (Element*)this, (MethodType)&Vendor::is_selected, AhkBool);
@@ -98,29 +83,23 @@ public:
     }
 
     bool is_selected() {
-        for (auto& menu : npc_menus) {
-            if (menu && menu->is_visible())
-                return true;
-        }
+        if (npc_menu && npc_menu->is_visible())
+            return true;
         return false;
     }
 
     wstring& name() {
         vendor_name = L"";
-        for (auto& menu : npc_menus) {
-            if (menu && menu->is_visible())
-                vendor_name = menu->get_name();
-        }
+        if (npc_menu && npc_menu->is_visible())
+            vendor_name = npc_menu->get_name();
 
         return vendor_name;
     }
 
     std::map<wstring, shared_ptr<Element>>& get_services() {
         services.clear();
-        for (auto& menu : npc_menus) {
-            if (menu && menu->is_visible())
-                menu->get_services(services);
-        }
+        if (npc_menu && npc_menu->is_visible())
+            npc_menu->get_services(services);
 
         return services;
     }
