@@ -90,7 +90,7 @@ public:
     }
 
     shared_ptr<Item> get_hovered_item() {
-        addrtype element_ptr = read<addrtype>("hovered_item");
+        addrtype element_ptr = read<addrtype>("hovered");
         if (element_ptr) {
             Element e(element_ptr);
             addrtype item_ptr = e.read<addrtype>("item");

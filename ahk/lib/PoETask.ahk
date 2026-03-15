@@ -218,7 +218,7 @@ class PoETask extends AhkObj {
             }
         }
 
-        poeVersion := RegExReplace(ptask.getVersion(), "release tags/")
+        poeVersion := RegExReplace(ptask.getVersion(), "tags/")
         if (poeVersion ~= PoEOffsets.version) {
             this.reset()
         } else {
