@@ -4,10 +4,10 @@
 
 
 static std::map<string, int> npc_menu2_offsets {
-    {"service",    0x348},
-       {"list",    0x478},
-    {"name",       0x360},
-    {"sp_service", 0x328},
+    {"service",    0x358},
+       {"list",    0x488},
+    {"name",       0x370},
+    {"sp_service", 0x338},
 };
 
 class NpcMenu2 : public Element {
