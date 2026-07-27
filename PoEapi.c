@@ -36,10 +36,10 @@ enum MessageTypes {
 };
 
 int major_version = 0;
-int minor_version = 51;
-int patch_level = 4;
+int minor_version = 54;
+int patch_level = 0;
 
-const char* supported_PoE_version = "3.24";
+const char* supported_PoE_version = "3.28";
 
 DLLEXPORT void poeapi_get_version(int& major, int& minor, int &patch_level) {
     major = major_version;

@@ -23,35 +23,35 @@ std::map<string, int> in_game_ui_offsets {
     {"skills",             28},
     {"atlas",              29},
     {"atlas_skills",       30},
-    {"inventory",          39},
-        {"grid",        0x400},
-    {"stash",              41},
-        {"tabs",        0x310},
-    {"expedition",         49},
-    {"kirac_mission",      69},
-    {"card_trade",         73},
-    {"temple",             79},
-    {"delve_chart",        85},
-    {"syndicate",          87},
-    {"horticrafting",      97},
-    {"heist_locker",      100},
-    {"favours",           101},
-    {"expedition_locker", 103},
-    {"Necropolis Locker", 104},
-    {"purchase",          106},
-    {"purchase2",         107},
-    {"sell",              108},
-    {"sell2",             109},
-    {"trade",             110},
-    {"item_note",         178},
-    {"chat",            0x4a0},
-    {"notifications",   0xae8},
-    {"lefe_panel",      0x568},
-    {"right_panel",     0x570},
-    {"panel_flags",     0x578},
-    {"entity_list",     0x648},
-        {"root",        0x470},
-        {"count",       0x478},
+    {"inventory",          45},
+        {"grid",        0x498},
+    {"stash",              47},
+        {"tabs",        0x3a8},
+    {"expedition",         55},
+    {"card_trade",         79},
+    {"temple",             83},
+    {"delve_chart",        89},
+    {"syndicate",          91},
+    {"horticrafting",     102},
+    {"heist_locker",      105},
+    {"favours",           106},
+    {"expedition_locker", 108},
+    {"Necropolis Locker", 109},
+    {"purchase",          111},
+    {"purchase2",         112},
+    {"sell",              113},
+    {"sell2",             114},
+    {"trade",             115},
+    {"rewards",           127},
+    {"item_note",         190},
+    {"chat",            0x540},
+    {"notifications",   0xc00},
+    {"lefe_panel",      0x5f8},
+    {"right_panel",     0x600},
+    {"panel_flags",     0x608},
+    {"entity_list",     0x6e8},
+        {"root",        0x4e8},
+        {"count",       0x4f0},
 };
 
 class InGameUI : public Element {
@@ -84,7 +84,7 @@ public:
             get_skills();
 
             std::vector<string> active_panel_names = {
-                "skills", "atlas", "atlas_skills", "kirac_mission", "temple", "delve_chart", "syndicate", "horticrafting", "expedition"
+                "skills", "atlas", "atlas_skills", "temple", "delve_chart", "syndicate", "horticrafting", "expedition"
             };
 
             for (auto& i : active_panel_names)  
@@ -248,11 +248,11 @@ public:
                 break;
 
             addrtype label = PoEMemory::read<addrtype>(next + 0x10);
-            if (!(PoEMemory::read<byte>(label + 0x151) & 0x8))
+            if (!(PoEMemory::read<byte>(label + 0x1e9) & 0x8))
                 continue;
 
             addrtype entity_address = PoEMemory::read<addrtype>(next + 0x18);
-            int entity_id = PoEMemory::read<int>(entity_address + 0x80);
+            int entity_id = PoEMemory::read<int>(entity_address + 0x88);
             auto i = removed.find(entity_id);
             if (i != removed.end()) {
                 entities.insert(*i);

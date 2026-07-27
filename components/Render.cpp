@@ -13,9 +13,9 @@ ostream& operator<<(ostream& os, const Vector3& vec)
 /* Render component offsets */
 
 static FieldOffsets render_component_offsets {
-    {"name",     0xc8},
-    {"position", 0xa0},
-    {"bounds",   0xac},
+    {"name",     0x148},
+    {"position", 0x120},
+    {"bounds",   0x12c},
 };
 
 class Render : public Component {

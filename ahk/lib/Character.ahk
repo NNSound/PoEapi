@@ -17,7 +17,7 @@ class Flask {
             else
                 this.IsLife := this.IsMana := true
             this.type := "<b style=""color:magenta"">H</b>"
-        } else if (item.name ~= "Tincture") {
+        } else if (item.baseName ~= "Tincture") {
             this.IsTincture := true
             this.type := "<b>T</b>"
         } else {
@@ -93,6 +93,9 @@ class Flask {
                 this.endTime := A_Tickcount + this.duration
                 return true
             }
+        } else if (this.IsTincture) {
+            SendInput, % this.key
+            return true
         } else if (this.IsLife) {
             if (Life < 80 && (Life < 50 || this.savedLife > Life || this.endTime < A_Tickcount)) {
                 SendInput, % this.key
@@ -292,6 +295,8 @@ class Character {
         if (this.nearbyMonsters >= MonsterThreshold) {
             for i, aFlask in this.flasks {
                 if (aFlask.IsUtility)
+                    aFlask.use()
+                else if (aFlask.IsTincture && !ptask.hasBuff("tincture_parent_buff"))
                     aFlask.use()
             }
         }

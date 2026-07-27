@@ -31,7 +31,7 @@ global db := new LocalDB("local.db")
 loadHotkeys()
 global ptask := new PoETask()
 
-global version := "1.17.1"
+global version := "1.19"
 global poeapiVersion := Format("{}.{}.{}", major_version, minor_version, patchlevel)
 syslog("<b>PoEapikit v{} (" _("Powered by") " PoEapi v{})</b>", version, poeapiVersion)
 
@@ -117,8 +117,8 @@ Attack:
             ptask.isPicking := false
             ptask.stopPickup()
         }
-        ptask.player.onAttack()
     }
+    ptask.player.onAttack()
 return
 
 QuickDefense:

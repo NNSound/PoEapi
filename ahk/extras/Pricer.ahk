@@ -7,42 +7,46 @@ global $divine, $exalted
 
 class Pricer {
 
-    url := "https://poe.ninja/api/data/{}overview?league={}&type={}&language={}"
+    url := "https://poe.ninja/poe1/api/economy/exchange/current/overview?league={}&type={}&language={}"
 
-    types := { "Currency"           : {"catalog" : "currency", "type" : "Currency"}
-             , "Fragments"          : {"catalog" : "currency", "type" : "Fragment"}
-             , "Divination Cards"   : {"catalog" : "item", "type" : "DivinationCard"}
-             , "Artifacts  "        : {"catalog" : "item", "type" : "Artifact"}
-             , "Oils"               : {"catalog" : "item", "type" : "Oil"}
-             , "Incubators"         : {"catalog" : "item", "type" : "Incubator"}
-             , "Tattoos"            : {"catalog" : "item", "type" : "Tattoo"}
-             , "Omens"              : {"catalog" : "item", "type" : "Omen"}
-             , "Allflame Embers"    : {"catalog" : "item", "type" : "AllflameEmber"}
+    types := { "Currency"           : "Currency"
+             , "Fragments"          : "Fragment"
+             , "Divination Cards"   : "DivinationCard"
+             , "Artifacts  "        : "Artifact"
+             , "Oils"               : "Oil"
+             , "Incubators"         : "Incubator"
+             , "Tattoos"            : "Tattoo"
+             , "Omens"              : "Omen"
+             , "Runegrafts"         : "Runegraft"
+             , "Allflame Embers"    : "AllflameEmber"
+             , "Djinn Coins"        : "DjinnCoin"
+             , "Wombgifts"          : "Wombgift"
 
              ; Equipment & Gems
-             , "Unique Weapons"     : {"catalog" : "item", "type" : "UniqueWeapon"}
-             , "Unique Armours"     : {"catalog" : "item", "type" : "UniqueArmour"}
-             , "Unique Accessories" : {"catalog" : "item", "type" : "UniqueAccessory"}
-             , "Unique Flasks"      : {"catalog" : "item", "type" : "UniqueFlask"}
-             , "Unique Jewels"      : {"catalog" : "item", "type" : "UniqueJewel"}
-             , "Skill Gems"         : {"catalog" : "item", "type" : "SkillGem"}
+             , "Unique Weapons"     : "UniqueWeapon"
+             , "Unique Armours"     : "UniqueArmour"
+             , "Unique Accessories" : "UniqueAccessory"
+             , "Unique Flasks"      : "UniqueFlask"
+             , "Unique Jewels"      : "UniqueJewel"
+             , "Skill Gems"         : "SkillGem"
 
              ; Atlas
-             , "Maps"               : {"catalog" : "item", "type" : "Map"}
-             , "Blighted Maps"      : {"catalog" : "item", "type" : "BlightedMap"}
-             , "Blight-ravaged Maps": {"catalog" : "item", "type" : "BlightRavagedMap"}
-             , "Unique Maps"        : {"catalog" : "item", "type" : "UniqueMap"}
-             , "Delirium Orbs"      : {"catalog" : "item", "type" : "DeliriumOrb"}
-             , "Invitations"        : {"catalog" : "item", "type" : "Invitation"}
-             , "Scarabs"            : {"catalog" : "item", "type" : "Scarab"}
+             , "Maps"               : "Map"
+             , "Blighted Maps"      : "BlightedMap"
+             , "Blight-ravaged Maps": "BlightRavagedMap"
+             , "Unique Maps"        : "UniqueMap"
+             , "Delirium Orbs"      : "DeliriumOrb"
+             , "Invitations"        : "Invitation"
+             , "Scarabs"            : "Scarab"
+             , "Astrolabes"         : "Astrolabe"
 
              ; Crafting
-             , "Base Types"         : {"catalog" : "item", "type" : "BaseType"}
-             , "Fossils"            : {"catalog" : "item", "type" : "Fossil"}
-             , "Resonators"         : {"catalog" : "item", "type" : "Resonator"}
-             , "Beasts"             : {"catalog" : "item", "type" : "Beast"}
-             , "Essences"           : {"catalog" : "item", "type" : "Essence"}
-             , "Vials"              : {"catalog" : "item", "type" : "Vial"} }
+             , "Base Types"         : "BaseType"
+             , "Fossils"            : "Fossil"
+             , "Resonators"         : "Resonator"
+             , "Beasts"             : "Beast"
+             , "Essences"           : "Essence"
+             , "Vials"              : "Vial" }
 
     langNames := {"de": "ge", "pt-BR": "pt", "ko-KR": "ko"}
     influenceTypes := ["Shaper", "Elder", "Crusader", "Redeemer", "Hunter", "Warlord"]
@@ -265,12 +269,14 @@ class Pricer {
                 (lang != this.lang) ? this.__items := {}
                 lang := this.langNames[this.lang] ? this.langNames[this.lang] : this.lang
                 for name, t in this.types {
-                    url := Format(this.url, t.catalog, league, t.type, lang)
+                    url := Format(this.url, league, t, lang)
                     if (Not parsed := JSON.__parse(ajax(url)))
                         throw, "bad connection"
                     rdebug("#PRICER", "<b style='background-color:gold;color:black'>Loading item prices of {} ... {}</b>", name, parsed.lines.length)
-                    if (parsed.hasOwnProperty("language"))
-                        dict := JSON.__copy(parsed.language.translations)
+                    ;if (parsed.hasOwnProperty("language"))
+                    ;    dict := JSON.__copy(parsed.language.translations)
+                    dict := {}
+                    parsed.items.forEach(ObjBindMethod(this, "__getDict", dict))
                     parsed.lines.forEach(ObjBindMethod(this, "__addPrice", t.type, dict))
                     if (t.type == "BaseType") {
                         for i, t in this.influenceTypes
@@ -304,6 +310,10 @@ class Pricer {
         SetTimer,, % this.updatePeriod
     }
 
+    __getDict(dict, item) {
+        dict[item.id] := item.name
+    }
+
     __addPrice(type, dict, p) {
         try {
             if (p.hasOwnProperty("currencyTypeName")) {
@@ -313,11 +323,13 @@ class Pricer {
                     ? this.addPrice(p.currencyTypeName, "", type, {"price": p.receive.value})
                     : this.addPrice(p.currencyTypeName, "", type, {"price": p.chaosEquivalent})
             } else {
-                if (p.listingCount < 10 || p.sparkLine.data.length == 0 || (p.itemClass != 6 && InStr(p.detailsId, "-relic")))
+                ;if (p.sparkline.data.length == 0 || (p.itemClass != 6 && InStr(p.detailsId, "-relic")))
+                ;    return
+                if (p.sparkline.data.length == 0)
                     return
 
-                dict.hasKey(p.name) ? db.addTranslation(p.name, RegExReplace(dict[p.name], "\(.+\)"))
-                cols := {"price": p.chaosValue}
+                ;dict.hasKey(p.name) ? db.addTranslation(p.name, RegExReplace(dict[p.name], "\(.+\)"))
+                cols := {"price": p.primaryValue}
                 , InStr(type, "Unique") ? cols.is_unique := true : 0
                 , p.hasOwnProperty("variant") ? cols.variant := p.variant : ""
                 switch (type) {
@@ -329,13 +341,13 @@ class Pricer {
                     , cols.details := "T" cols.map_tier
                 case "BlightedMap":
                     type := "Map"
-                    , p.name := RegExReplace(p.name, "Blighted ")
+                    , p.id := RegExReplace(p.id, "blighted ")
                     , cols.map_tier := p.mapTier
                     , cols.is_blighted := true
                     , cols.details := "T" cols.map_tier
                 case "BlightRavagedMap":
                     type := "Map"
-                    , p.name := RegExReplace(p.name, "Blight-ravaged ")
+                    , p.id := RegExReplace(p.id, "blight-ravaged ")
                     , cols.map_tier := p.mapTier
                     , cols.is_blighted := true
                     , cols.details := "T" cols.map_tier
@@ -350,8 +362,8 @@ class Pricer {
                     , cols.quality := p.hasOwnProperty("gemQuality") ? p.gemQuality : 0
                     , cols.details := "Level " cols.gem_level " " cols.quality "%"
                     , cols.is_corrupted := p.hasOwnProperty("corrupted") ? true : false
-                    if (RegExMatch(p.name, "(Anomalous|Divergent|Phantasmal) (.*)", matched))
-                        p.name := matched2
+                    if (RegExMatch(p.id, "(anomalous|divergent|phantasmal) (.*)", matched))
+                        p.id := matched2
                         , cols.quality_type := this.qualityTypes[matched1]
                         , cols.details := matched1 " " cols.details
                 case "UniqueWeapon":
@@ -366,7 +378,7 @@ class Pricer {
 
                 p.hasOwnProperty("itemType") ? type := p.itemType : ""
                 , p.hasOwnProperty("baseType") ? baseType := p.baseType : ""
-                , this.addPrice(p.name, baseType, type, cols)
+                , this.addPrice(dict.hasKey(p.id) ? dict[p.id] : p.id, baseType, type, cols)
             }
         } catch {}
     }
