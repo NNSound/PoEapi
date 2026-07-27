@@ -60,7 +60,7 @@ global PluginOptions := { "AutoFlask"     : { "enabled" : true }
                                             , "autoQuitMinLevel" : 90 } }
 
 ; Flasks
-global LifeThreshold := 50
+global LifeThreshold := 75
 global ManaThreshold := 50
 global ChargesPerUseLimit := 50
 global MonsterThreshold := 5
@@ -77,8 +77,8 @@ global TraderMessages := { "thanks" : "t4t, gl."
                          , "sold"   : "sold out." }
 
 ; Vendor recipes
-global VendorTabDivinationCards := "1"
-global VendorTabGems := "2"
+global VendorTabDivinationCards := "CARD"
+global VendorTabGems := "GEM"
 global VendorTabFullRareSets := "1, 2, 3"
 
 ; Attack and defense
@@ -86,7 +86,7 @@ global DefenseBuffSkillKey := "r"
 global QuickDefenseAction := "q"
 global AruasKey := "!q!w!e!r!t"
 
-; Delve
+; 掘獄信號彈
 global AutoDropFlare := true
 global MaxDarknessStacks := 10
 
@@ -110,24 +110,27 @@ global HeistChestNameRegex := "HeistChest(Secondary|RewardRoom)(.*)(Military|Rob
 ;       rarity, itemLevel, quality, sockets, links, tier, level, price, job
 ;       and is<BaseType> is<SubType>
 ;
+; IdentifyExceptions => 未鑑定黑名單(指定規則不鑑定)
+; VendorExceptions => 售出黑名單(不會販售)
+; 
 global IdentifyExceptions :=[ {"baseType" : "Map"},
                             , {"baseName" : "Opal Ring|Two-Toned Boots"}
                             , {"baseType" : "Weapon|Armour|Belt|Amulet|Ring", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 75]}} ]
 
 global VendorRules := [ {"baseType" : "Gem", "Constraints" : {"baseName" : "^(?!Awakened)", "level" : [1, 18], "quality" : [0, 4]}}
                       , {"baseType" : "Weapon|Armour|Belt|Amulet|Ring|Quiver|Flask|Jewel"} ]
-global VendorExceptions := [ {"baseType" : ".*", "Constraints" : {"rarity" : 3, "price" : [0.5, 99999]}}
+global VendorExceptions := [ {"baseType" : ".*", "Constraints" : {"rarity" : 3, "price" : [1, 99999]}}
                            , {"baseType" : "Currency|Map|MapFragment"}
                            , {"baseType" : "Gem", "Constraints" : {"baseName" : "Awakened"}}
                            , {"baseName" : "Blueprint|Contract|Cluster Jewel|Opal Ring|Two-Toned Boots"}
                            , {"baseType" : "Flask", "Constraints" : {"name" : "Bubbling|Seething|Catalysed|Staunching|Heat|Warding"}}
                            , {"baseType" : "Weapon|Armour|Belt|Amulet|Ring", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 75]}} ]
 
-global StashRules := [ {"tabName" : "Es",      "baseName" : "Essence of|Remnant of"}
-                     , {"tabName" : "Fossils", "baseName" : "Fossil$|Resonator$"}
+global StashRules := [ {"tabName" : "精髓",     "baseName" : "Essence of|Remnant of"}
+                     , {"tabName" : "掘獄",     "baseName" : "Fossil$|Resonator$"}
                      , {"tabName" : "$$$",     "baseType" : "Currency", "Constraints" : {"index" : [3, 60] }}
-                     , {"tabName" : "1",       "baseType" : "Weapon", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
-                     , {"tabName" : "2",       "baseType" : "Armour", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
-                     , {"tabName" : "3",       "baseType" : "Belt|Amulet|Ring", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
-                     , {"tabName" : "Maps",    "baseType" : "Map(?!Fragment)"}
-                     , {"tabName" : "Fr",      "baseType" : "MapFragment", "baseName" : "Splinter|Scarab$"} ]
+                     , {"tabName" : "L1",      "baseType" : "Weapon", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
+                     , {"tabName" : "L1",      "baseType" : "Armour", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
+                     , {"tabName" : "L1",      "baseType" : "Belt|Amulet|Ring", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
+                     , {"tabName" : "L2",      "baseType" : "Jewel"}
+                     , {"tabName" : "MAP",     "baseType" : "Map(?!Fragment)"} ]

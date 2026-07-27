@@ -6,36 +6,36 @@
 ;
 ;                           Enabled Prefix Key Name     Label              Description
 ;                           ------- ------ -----------  -----------------  --------------------------------------
-global defaultHotkeys := [ [ true,  "",    "``",        "ExitGame",        "Exit to character selection"]
-                         , [ true,  "~*",  "a",         "AutoPickup",      "Pickup nearby items"]
-                         , [ true,  "$",   "q",         "QuickDefense",    "Quick defence actions"]
-                         , [ true,  "~",   "s",         "LevelupGems",     "Level up skill gems"]
-                         , [ true,  "~",   "w",         "Attack",          "Main attack skill"]
-                         , [ false, "~",   "RButton",   "Attack",          "Secondary attack skill"]
-                         , [ true,  "",    "#d",        "MinimizeWindow",  "Minimize PoE window"]
-                         , [ true,  "",    "F1",        "AutoAuras",       "Auto aruas (ALT+F1 for performance stats)"]
-                         , [ true,  "",    "F2",        "OpenPortal",      "Open portal"]
-                         , [ true,  "*",   "F3",        "SellItems",       "Auto identify and sell items"]
-                         , [ true,  "",    "F4",        "StashItems",      "Stash items"]
-                         , [ true,  "",    "F5",        "Hideout",         "Enter hideout"]
-                         , [ true,  "",    "^F5",       "Delve",           "Enter mine encampment"]
-                         , [ true,  "",    "!F5",       "Menagerie",       "Enter menagerie"]
-                         , [ true,  "",    "F12",       "ShowLog",         "Show log window"]
-                         , [ true,  "~*",  "LAlt",      "ShowPrices",      "Show price of the item(s) in stash tab, inventory, etc."]
-                         , [ true,  "*",   "^LButton",  "AutoCtrlClick",   "Hold to activate auto CTRL clicker"]
-                         , [ true,  "~",   "+LButton",  "AutoShiftClick",  "Hold to activate auto SHIFT clicker"]
-                         , [ true,  "",    "+RButton",  "AutoRButtonClick","Hold to activate auto right mouse button clicker"]
-                         , [ true,  "~",   "^RButton",  "AutoFillPrice",   "Auto fill the price tag of the selected item"]
-                         , [ false, "~*",  "^c",        "CopyItemName",    "Copy the selected item's name"]
-                         , [ true,  "~",   "^f",        "HighlightItems",  "Highlight items in stash tab"]
-                         , [ true,  "",    "^m",        "ToggleMaphack",   "Toggle maphack"]
-                         , [ true,  "",    "^w",        "OpenWiki",        "Open wiki"]
-                         , [ false, "",     "",         "tradeGems",       "Trade quality gems"]
-                         , [ false, "",     "",         "tradeDivinationCards", "Trade divination cards"]
-                         , [ false, "",     "",         "openStackedDecks","Open stacked decks"]
-                         , [ false, "",     "",         "sortItems",       "Sort items"]
-                         , [ true,  "",    "^r",        "Reload",          "Reload script"]
-                         , [ true,  "",    "^q",        "ExitApp",         "Quit PoEapikit"] ]
+global defaultHotkeys := [ [ true,  "",    "``",        "ExitGame",        "返回角色選擇畫面"]
+                         , [ true,  "~*",  "a",         "AutoPickup",      "拾取附近物品"]
+                         , [ true,  "$",   "q",         "QuickDefense",    "快速防禦動作"]
+                         , [ true,  "~",   "s",         "LevelupGems",     "升級技能寶石"]
+                         , [ true,  "~",   "w",         "Attack",          "主要攻擊技能"]
+                         , [ false, "~",   "RButton",   "Attack",          "次要攻擊技能"]
+                         , [ true,  "",    "#d",        "MinimizeWindow",  "最小化 PoE 視窗"]
+                         , [ false,  "",    "F1",       "AutoAuras",       "自動光環 (ALT+F1 顯示效能統計)"]
+                         , [ false,  "",    "F2",       "OpenPortal",      "開啟傳送門"]
+                         , [ false,  "*",   "F3",       "SellItems",       "自動鑑定並販賣物品"]
+                         , [ true,  "",    "F4",        "StashItems",      "存入倉庫物品"]
+                         , [ false,  "",    "F5",       "Hideout",         "進入藏身處"]
+                         , [ false,  "",    "^F5",      "Delve",           "進入掘獄營地"]
+                         , [ false,  "",    "!F5",      "Menagerie",       "進入獸欄"]
+                         , [ true,  "",    "F12",       "ShowLog",         "顯示日誌視窗"]
+                         , [ true,  "~*",  "LAlt",      "ShowPrices",      "顯示倉庫分頁、背包等處的物品價格"]
+                         , [ true,  "*",   "^LButton",  "AutoCtrlClick",   "按住以啟用自動 CTRL 點擊器"]
+                         , [ true,  "~",   "+LButton",  "AutoShiftClick",  "按住以啟用自動 SHIFT 點擊器"]
+                         , [ true,  "",    "+RButton",  "AutoRButtonClick","按住以啟用自動滑鼠右鍵點擊器"]
+                         , [ true,  "~",   "^RButton",  "AutoFillPrice",   "自動填寫所選物品的價格標籤"]
+                         , [ false, "~*",  "^c",        "CopyItemName",    "複製所選物品的名稱"]
+                         , [ true,  "~",   "^f",        "HighlightItems",  "高亮倉庫分頁中的物品"]
+                         , [ true,  "",    "^m",        "ToggleMaphack",   "切換地圖全開 (Maphack)"]
+                         , [ true,  "",    "^w",        "OpenWiki",        "開啟 Wiki"]
+                         , [ false, "",     "",         "tradeGems",       "販賣有品質的寶石"]
+                         , [ false, "",     "",         "tradeDivinationCards", "兌換命運卡"]
+                         , [ false, "",     "",         "openStackedDecks","開啟卡牌套組"]
+                         , [ false, "",     "",         "sortItems",       "整理物品"]
+                         , [ true,  "",    "^r",        "Reload",          "重新載入腳本"]
+                         , [ true,  "",    "^q",        "ExitApp",         "結束 PoEapikit"] ]
 
 class Hotkeys extends WebGui {
 
@@ -66,15 +66,15 @@ class Hotkeys extends WebGui {
         </head>
         <body>
             <div>
-                <h2>Hotkeys</h2>
-                <i class='hint'>* ^ for CTRL, + for SHIFT, ! for ALT and # for Windows key</i><br/>
-                <i class='hint'>** Hotkeys from extra features or patreon only features CAN NOT be changed.</i> 
+                <h2>快捷鍵設定</h2>
+                <i class='hint'>* ^ 代表 CTRL，+ 代表 SHIFT，! 代表 ALT，# 代表 Windows 鍵</i><br/>
+                <i class='hint'>** 額外功能或贊助者 (Patreon) 專屬功能的快捷鍵無法更改。</i> 
                 <table id='hotkeys'>
                 </table>
             </div>
             <span>
-                <button id='cancel'>Cancel</button>
-                <button id='ok'>OK</button>
+                <button id='cancel'>取消</button>
+                <button id='ok'>確定</button>
             </span>
         </body>
         </html>
@@ -94,11 +94,11 @@ class Hotkeys extends WebGui {
             hotkeyTable .= "<td>" hotkey.description "</td>"
             hotkeyTable .= "</tr>"
         }
-        hotkeyTable .= "<tr><td></td><td>F6</td><td>Dump inventory items</td></tr>"
-        hotkeyTable .= "<tr><td></td><td>Ctrl+F6</td><td>Dump highlighted or all items from stash tab</td></tr>"
-        hotkeyTable .= "<tr><td></td><td>F7</td><td>Sell full rare sets to vendor</td></tr>"
-        hotkeyTable .= "<tr><td></td><td>Ctrl+d</td><td><b style='color:darkred'>[patreon only]</b> Check the price of selected item or items in nearby curio displays</td></tr>"
-        hotkeyTable .= "<tr><td></td><td>Ctrl+Shift+d</td><td><b style='color:darkred'>[patreon only]</b> Check the price of items in current stash tab or inventory</td></tr>"
+        hotkeyTable .= "<tr><td></td><td>F6</td><td>傾倒背包物品</td></tr>"
+        hotkeyTable .= "<tr><td></td><td>Ctrl+F6</td><td>傾倒倉庫分頁中高亮或所有的物品</td></tr>"
+        hotkeyTable .= "<tr><td></td><td>F7</td><td>整套稀有裝備賣給商店 (配方)</td></tr>"
+        hotkeyTable .= "<tr><td></td><td>Ctrl+d</td><td><b style='color:darkred'>[贊助者專屬]</b> 查詢所選物品或附近奇珍展示架物品的價格</td></tr>"
+        hotkeyTable .= "<tr><td></td><td>Ctrl+Shift+d</td><td><b style='color:darkred'>[贊助者專屬]</b> 查詢當前倉庫分頁或背包中物品的價格</td></tr>"
         this._("#hotkeys").innerHtml := hotkeyTable
     }
 
