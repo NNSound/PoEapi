@@ -9,7 +9,6 @@
         "Portal Scroll",
         "Scroll of Wisdom",
         "Azurite Mine",
-
         "You have left the party.",
         "(.*) has joined your party.",
         "(.*) has left the party.",
@@ -70,9 +69,34 @@
         "Trade seesion closed",
         "Inviting",
         "You have joined a party.",
-        "(.*) has left the area."
+        "(.*) has left the area.",
+        "Exit game",
+        "Auto pickup",
+        "Quick defense",
+        "Level up gems",
+        "Attack",
+        "Secondary attack",
+        "Minimize PoE window",
+        "Auto aruas (ALT+F1 for performance stats)",
+        "Open portal",
+        "Auto identify and sell items",
+        "Stash items",
+        "Enter hideout",
+        "Enter mine encampment",
+        "Enter menagerie",
+        "Show log window",
+        "Show price of the item(s) in stash tab, inventory, etc.",
+        "Hold to activate auto CTRL clicker",
+        "Hold to activate auto SHIFT clicker",
+        "Hold to activate auto right mouse button clicker",
+        "Auto fill the price tag of the selected item",
+        "Copy the selected item's name",
+        "Highlight items in stash tab",
+        "Toggle maphack",
+        "Open wiki",
+        "Reload script",
+        "Quit PoEapikit"
     ],
-
     "zh-CN": [
         "藏身处",
         "仓库",
@@ -84,8 +108,7 @@
         "知识卷轴",
         "碧蓝矿坑"
     ],
-
-    "zh-TW": [
+    "fr": [
         "藏身處",
         "倉庫",
         "販賣物品",
@@ -155,21 +178,34 @@
         "交易已結束",
         "邀請中",
         "你加入了隊伍。",
-        "(.*) 離開了此區域。"
+        "(.*) 離開了此區域。",
+        "返回角色選擇畫面",
+        "拾取附近物品",
+        "快速防禦動作",
+        "升級技能寶石",
+        "主要攻擊技能",
+        "次要攻擊技能",
+        "最小化 PoE 視窗",
+        "自動光環 (ALT+F1 顯示效能統計)",
+        "開啟傳送門",
+        "自動鑑定並販賣物品",
+        "存入倉庫物品",
+        "進入藏身處",
+        "進入掘獄營地",
+        "進入獸欄",
+        "顯示日誌視窗",
+        "顯示倉庫分頁、背包等處的物品價格",
+        "按住以啟用自動 CTRL 點擊器",
+        "按住以啟用自動 SHIFT 點擊器",
+        "按住以啟用自動滑鼠右鍵點擊器",
+        "自動填寫所選物品的價格標籤",
+        "複製所選物品的名稱",
+        "高亮倉庫分頁中的物品",
+        "切換地圖全開 (Maphack)",
+        "開啟 Wiki",
+        "重新載入腳本",
+        "結束 PoEapikit"
     ],
-
-    "fr": [
-        "Repaire",
-        "Réserve",
-        "Vendre des objets",
-        "Troc de Cartes divinatoires",
-        "Afficher vos Prophéties (H)",
-        "Navali",
-        "Parchemin de portail",
-        "Parchemin de sagesse",
-        "La Mine d'Azurite"
-    ],
-
     "ru": [
         "Убежище",
         "Тайник",
@@ -181,7 +217,6 @@
         "Свиток мудрости",
         "Азуритовая шахта"
     ],
-
     "de": [
         "Versteckte",
         "Truhe",
@@ -193,7 +228,6 @@
         "Identifikationsrolle",
         "Azuritmine"
     ],
-
     "es": [
         "Guarida",
         "Alijo",
@@ -205,7 +239,6 @@
         "Pergamino de Sabiduría",
         "Mina de Azurita"
     ],
-
     "th": [
         "ที่ซ่อน",
         "คลังเก็บของ",
@@ -217,7 +250,6 @@
         "Scroll of Wisdom",
         "เหมืองอะซูไรต์"
     ],
-
     "pt-BR": [
         "Refúgio",
         "Baú",
@@ -229,7 +261,6 @@
         "Pergaminho de Sabedoria",
         "Mina de Azurita"
     ],
-
     "ko-KR": [
         "은신처",
         "보관함",

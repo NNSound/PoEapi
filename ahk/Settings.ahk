@@ -22,7 +22,7 @@ global PluginOptions := { "AutoFlask"     : { "enabled" : true }
                         , "AutoPickup"    : { "enabled" : true
                                             , "range"   : 75
                                             , "ignoreChests"      : false
-                                            , "strictLevel"       : 0
+                                            , "strictLevel"       : 1
                                             , "genericItemFilter" : "Incubator|Quicksilver|Eternal (Life|Mana)"
                                             , "rareItemFilter"    : "Jewel|Amulet|Ring" }
 
@@ -120,7 +120,7 @@ global IdentifyExceptions :=[ {"baseType" : "Map"},
 global VendorRules := [ {"baseType" : "Gem", "Constraints" : {"baseName" : "^(?!Awakened)", "level" : [1, 18], "quality" : [0, 4]}}
                       , {"baseType" : "Weapon|Armour|Belt|Amulet|Ring|Quiver|Flask|Jewel"} ]
 global VendorExceptions := [ {"baseType" : ".*", "Constraints" : {"rarity" : 3, "price" : [1, 99999]}}
-                           , {"baseType" : "Currency|Map|MapFragment"}
+                           , {"baseType" : "Currency|Map|MapFragment|Scarab"}
                            , {"baseType" : "Gem", "Constraints" : {"baseName" : "Awakened"}}
                            , {"baseName" : "Blueprint|Contract|Cluster Jewel|Opal Ring|Two-Toned Boots"}
                            , {"baseType" : "Flask", "Constraints" : {"name" : "Bubbling|Seething|Catalysed|Staunching|Heat|Warding"}}
@@ -128,9 +128,10 @@ global VendorExceptions := [ {"baseType" : ".*", "Constraints" : {"rarity" : 3, 
 
 global StashRules := [ {"tabName" : "精髓",     "baseName" : "Essence of|Remnant of"}
                      , {"tabName" : "掘獄",     "baseName" : "Fossil$|Resonator$"}
-                     , {"tabName" : "$$$",     "baseType" : "Currency", "Constraints" : {"index" : [3, 60] }}
+                     , {"tabName" : "$$$",     "baseType" : "Currency|Scarab|DivinationCard|MapFragment", "Constraints" : {"index" : [1, 59] }}
                      , {"tabName" : "L1",      "baseType" : "Weapon", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
                      , {"tabName" : "L1",      "baseType" : "Armour", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
                      , {"tabName" : "L1",      "baseType" : "Belt|Amulet|Ring", "Constraints" : {"rarity" : 2, "isIdentified" : false, "itemLevel" : [60, 85]}}
+                     , {"tabName" : "L1",      "baseType" : "Flask",  "Constraints" : {"isIdentified" : false, "itemLevel" : [83, 85]}}
                      , {"tabName" : "L2",      "baseType" : "Jewel"}
                      , {"tabName" : "MAP",     "baseType" : "Map(?!Fragment)"} ]

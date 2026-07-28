@@ -5,8 +5,8 @@
 global __translations := {}
 global __apiEndpoints := { "en": "https://www.pathofexile.com/api/trade/data"
                          , "zh-CN": "https://poe.game.qq.com/api/trade/data"
-                         , "zh-TW": "https://pathofexile.tw/api/trade/data"
-                         , "fr": "https://fr.pathofexile.com/api/trade/data"
+                         , "fr": "https://pathofexile.tw/api/trade/data"
+                        ;  , "fr": "https://fr.pathofexile.com/api/trade/data"
                          , "ru": "https://ru.pathofexile.com/api/trade/data"
                          , "de": "https://de.pathofexile.com/api/trade/data"
                          , "es": "https://es.pathofexile.com/api/trade/data"
